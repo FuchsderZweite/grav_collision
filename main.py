@@ -8,6 +8,11 @@ WINDOW_HEIGHT = 600
 FPS = 60
 NUMBER_OF_OBJECTS = 3
 
+RED = (255,0,0)
+GREEN = (0,255,0)
+BLUE = (0,0,255)
+WHITE = (255,255,255)
+
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE)
 
@@ -26,12 +31,21 @@ def collision():
                 #dist_abs = math.sqrt(dist_x**2 + dist_y**2)             # avoid sqrt()
                 if(dist_x * dist_x + dist_y * dist_y < circ1.radius + circ2.radius ):
                     print("collision between{} and {} ".format(circ1.id, circ2.id))
+
                 else:
                     pass
 
 
+
+
+
 def redraw_window(screen):
     screen.fill((0, 0, 0))
+
+    p1_camera = pygame.Rect(0, 0, 400, 300)
+
+    screen.blit(screen, (0, 0), p1_camera)
+
     for i in circles:
         i.draw(screen)
 
@@ -41,6 +55,9 @@ def main():
     scaling = 0.00001
     dt = clock.tick(60) * scaling * FPS
     running = True
+
+
+
 
     while running:
         for event in pygame.event.get():

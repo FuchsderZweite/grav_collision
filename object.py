@@ -4,7 +4,7 @@ id_list = []
 
 WIDTH_FIELD = 600
 HEIGHT_FIELD = 600
-VELOCITY_MAX = 13
+VELOCITY_MAX = 12
 
 class Circle:
     def __init__(self):
