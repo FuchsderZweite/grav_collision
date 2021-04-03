@@ -1,21 +1,25 @@
 import pygame
 from random import randint
+id_list = []
+
+WIDTH_FIELD = 600
+HEIGHT_FIELD = 600
+VELOCITY_MAX = 13
 
 class Circle:
-    id_list = []
-    COLORS = [(255,255,255), ]
-    def __init__(self, HEIGHT, WIDTH):
+    def __init__(self):
+        self.id_list = id_list
         self.id = len(self.id_list) + 1
-        self.WIDTH = WIDTH
-        self.HEIGHT = HEIGHT
+        self.id_list.append(self.id)
         self.mass = randint(10, 100)
         self.radius = randint(10, 40)
-        self.pos = pygame.math.Vector2(randint(0+self.radius, self.WIDTH-self.radius), randint(0+self.radius, self.HEIGHT-self.radius))
-        self.v = pygame.math.Vector2(randint(-15, 15), randint(-15, 15))
+        self.pos = pygame.math.Vector2(randint(0+self.radius, WIDTH_FIELD-self.radius), randint(0+self.radius, HEIGHT_FIELD-self.radius))
+        self.v = pygame.math.Vector2(randint(-VELOCITY_MAX, VELOCITY_MAX), randint(-VELOCITY_MAX, VELOCITY_MAX))
         if self.v.x == 0 or self.v.y == 0:
-            self.v = pygame.math.Vector2(randint(-15, 15), randint(-15, 15))
-        self.a = pygame.math.Vector2(1, 1)
+            self.v = pygame.math.Vector2(randint(-VELOCITY_MAX, VELOCITY_MAX), randint(-VELOCITY_MAX, VELOCITY_MAX))
+        #self.a = pygame.math.Vector2(1, 1)
         self.color = (randint(0,255),randint(0,255),randint(0,255))
+
         # self.gravity = 0.35
         # self.friction = -0.12
 
@@ -27,6 +31,14 @@ class Circle:
         self.horizontal_movement(dt)
         self.vertical_movement(dt)
 
+
+    def intersect(self):
+        pass
+
+    def check_wall_collision(self):
+        pass
+
+
     def horizontal_movement(self, dt):
         #self.velocity.x += self.acceleration.x*dt
         #self.limit_velocity(4)
@@ -35,8 +47,7 @@ class Circle:
         col_left, col_right, col_top, col_bottom = self.collision_check()
         if col_left or col_right:
             self.v.x *= -1
-        #elif col_top or col_bottom:
-         #   self.v.y *= -1
+
 
 
     def vertical_movement(self, dt):
@@ -63,15 +74,34 @@ class Circle:
 
         if self.pos.x - self.radius <= 0.0:
             collision_left = True
-        elif self.pos.x + self.radius >= self.WIDTH:
+        elif self.pos.x + self.radius >= WIDTH_FIELD:
             collision_right = True
         elif self.pos.y - self.radius <= 0.0:
             collision_top = True
-        elif self.pos.y + self.radius >= self.HEIGHT:
+        elif self.pos.y + self.radius >= HEIGHT_FIELD:
             collision_bottom = True
         return collision_left, collision_right, collision_top, collision_bottom
 
 
+    def circle_collision(self):
+        distance_x = self.pos.x
+        distance_y = 2
+        pass
+
     def add_text(self):
         self.screen.blit(self.font.render('Hello!', True, (255, 0, 0)), (200, 100))
         pygame.display.update()
+
+
+
+class Table():
+    def __init__(self):
+        self.WIDTH = 900
+        self.HEIGHT = 600
+
+
+
+class Window():
+    def __init__(self):
+        self.WIDTH = 900
+        self.HEIGHT = 600

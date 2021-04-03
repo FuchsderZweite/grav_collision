@@ -1,16 +1,34 @@
 import pygame
+import math
 import object as obj
 
 
-WIDTH = 600
-HEIGHT = 600
+WINDOW_WIDTH = 900
+WINDOW_HEIGHT = 600
 FPS = 60
-NUMBER_OF_OBJECTS = 10
+NUMBER_OF_OBJECTS = 3
 
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE)
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE)
 
-circles = [obj.Circle(HEIGHT, WIDTH) for i in range(NUMBER_OF_OBJECTS)]
+circles = [obj.Circle() for i in range(NUMBER_OF_OBJECTS)]
+
+def collision():
+    for i in circles[0:-2]:
+        for j in circles[1:-1]:
+            if(i.id == j.id):
+                pass
+            else:
+                circ1 = circles[i.id]
+                circ2 = circles[j.id]
+                dist_x = abs(circ1.pos.x - circ2.pos.x)
+                dist_y = abs(circ1.pos.y - circ2.pos.y)
+                #dist_abs = math.sqrt(dist_x**2 + dist_y**2)             # avoid sqrt()
+                if(dist_x * dist_x + dist_y * dist_y < circ1.radius + circ2.radius ):
+                    print("collision between{} and {} ".format(circ1.id, circ2.id))
+                else:
+                    pass
+
 
 def redraw_window(screen):
     screen.fill((0, 0, 0))
@@ -19,7 +37,7 @@ def redraw_window(screen):
 
 def main():
     pygame.init()
-    font = pygame.font.SysFont(None, 30)
+    #font = pygame.font.SysFont(None, 30)
     scaling = 0.00001
     dt = clock.tick(60) * scaling * FPS
     running = True
@@ -33,6 +51,7 @@ def main():
         redraw_window(screen)
         pygame.display.flip()
         for i in circles:
+            collision()
             i.update(dt)
         clock.tick(FPS)
     pygame.quit()
